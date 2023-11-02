@@ -28,6 +28,19 @@ def validate_board(board: list[str])-> bool:
  "  2  ****"\
 ])
     False
+
+    >>> validate_board([\
+ "**** ****",\
+ "***1 ****",\
+ "**  3****",\
+ "* 4 1****",\
+ "     9 5 ",\
+ " 6  83  *",\
+ "38     **",\
+ "  8  2***",\
+ "  2  ****"\
+])
+    False
     '''
 
     for row in board:
@@ -45,6 +58,23 @@ def validate_board(board: list[str])-> bool:
                 if row[i] in numbers:
                     return False
                 numbers += row[i]
+
+    for i in range(5, len(board[0]) + 1):
+        i = -i
+        numbers = ''
+        board_temp = []
+
+        for index, row in enumerate(board):
+            if -index == i:
+                break
+            board_temp.append(row[i:])
+
+        for row in board_temp:
+            for elem in row:
+                if elem.isdigit():
+                    if elem in numbers:
+                        return False
+                    numbers += elem
     return True
 
 if __name__ == '__main__':
