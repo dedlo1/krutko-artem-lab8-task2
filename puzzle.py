@@ -1,7 +1,7 @@
 ''' Puzzle '''
 
 def validate_board(board: list[str])-> bool:
-    ''' Checking board if it valid
+    ''' Checking if board is valid
 
     GitHub:
     https://github.com/dedlo1/krutko-artem-lab8-task2
@@ -46,14 +46,6 @@ def validate_board(board: list[str])-> bool:
     False
     '''
 
-    for row in board:
-        numbers = ''
-        for symb in row:
-            if symb.isdigit():
-                if symb in numbers:
-                    return False
-                numbers += symb
-
     for i in range(len(board[0])):
         numbers = ''
         for row in board:
@@ -61,6 +53,13 @@ def validate_board(board: list[str])-> bool:
                 if row[i] in numbers:
                     return False
                 numbers += row[i]
+
+            numbers_hor = ''
+            for symb in row:
+                if symb.isdigit():
+                    if symb in numbers_hor:
+                        return False
+                    numbers_hor += symb
 
     for i in range(5, len(board[0]) + 1):
         i = -i
