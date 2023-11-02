@@ -1,7 +1,10 @@
 ''' Puzzle '''
 
 def validate_board(board: list[str])-> bool:
-    ''' Checking board if it valid 
+    ''' Checking board if it valid
+
+    GitHub:
+    https://github.com/dedlo1/krutko-artem-lab8-task2
     
     >>> validate_board([\
  "**** ****",\
