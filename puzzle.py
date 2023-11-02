@@ -6,7 +6,7 @@ def validate_board(board: list[str]) -> bool:
 
     GitHub:
     https://github.com/dedlo1/krutko-artem-lab8-task2
-    
+
     >>> validate_board([\
  "**** ****",\
  "***1 ****",\
@@ -47,6 +47,15 @@ def validate_board(board: list[str]) -> bool:
     False
     """
 
+    def checking(row: str, numbers_out: str = "") -> str | None:
+        """subfunc to fix pylint"""
+        for symb in row:
+            if symb.isdigit():
+                if symb in numbers_out:
+                    return None
+                numbers_out += symb
+        return numbers_out
+
     for i in range(len(board[0])):
         numbers = ""
         for row in board:
@@ -55,12 +64,9 @@ def validate_board(board: list[str]) -> bool:
                     return False
                 numbers += row[i]
 
-            numbers_hor = ""
-            for symb in row:
-                if symb.isdigit():
-                    if symb in numbers_hor:
-                        return False
-                    numbers_hor += symb
+            numbers_hor = checking(row)
+            if numbers_hor is None:
+                return False
 
     for i in range(5, len(board[0]) + 1):
         i = -i
@@ -73,11 +79,10 @@ def validate_board(board: list[str]) -> bool:
             board_temp.append(row[i:])
 
         for row in board_temp:
-            for elem in row:
-                if elem.isdigit():
-                    if elem in numbers:
-                        return False
-                    numbers += elem
+            check = checking(row, numbers)
+            if check is None:
+                return False
+            numbers = check
     return True
 
 
