@@ -1,7 +1,8 @@
-''' Puzzle '''
+""" Puzzle """
 
-def validate_board(board: list[str])-> bool:
-    ''' Checking if board is valid
+
+def validate_board(board: list[str]) -> bool:
+    """ Checking if board is valid
 
     GitHub:
     https://github.com/dedlo1/krutko-artem-lab8-task2
@@ -44,17 +45,17 @@ def validate_board(board: list[str])-> bool:
  "  2  ****"\
 ])
     False
-    '''
+    """
 
     for i in range(len(board[0])):
-        numbers = ''
+        numbers = ""
         for row in board:
             if row[i].isdigit():
                 if row[i] in numbers:
                     return False
                 numbers += row[i]
 
-            numbers_hor = ''
+            numbers_hor = ""
             for symb in row:
                 if symb.isdigit():
                     if symb in numbers_hor:
@@ -63,7 +64,7 @@ def validate_board(board: list[str])-> bool:
 
     for i in range(5, len(board[0]) + 1):
         i = -i
-        numbers = ''
+        numbers = ""
         board_temp = []
 
         for index, row in enumerate(board):
@@ -79,6 +80,8 @@ def validate_board(board: list[str])-> bool:
                     numbers += elem
     return True
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     import doctest
+
     doctest.testmod()
