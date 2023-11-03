@@ -48,7 +48,7 @@ def validate_board(board: list[str]) -> bool:
     """
 
     def checking(row: str, numbers_out: str = "") -> str | None:
-        """subfunc to fix pylint"""
+        """subfunc to run horizontal str"""
         for symb in row:
             if symb.isdigit():
                 if symb in numbers_out:
@@ -56,17 +56,21 @@ def validate_board(board: list[str]) -> bool:
                 numbers_out += symb
         return numbers_out
 
-    for i in range(len(board[0])):
-        numbers = ""
+    def checking_two(i: int, numbers_out: str = "") -> str | None:
+        """subfunc to run vertical str"""
         for row in board:
             if row[i].isdigit():
-                if row[i] in numbers:
-                    return False
-                numbers += row[i]
+                if row[i] in numbers_out:
+                    return None
+                numbers_out += row[i]
 
-            numbers_hor = checking(row)
-            if numbers_hor is None:
-                return False
+            if checking(row) is None:
+                return None
+        return numbers_out
+
+    for i in range(len(board[0])):
+        if checking_two(i) is None:
+            return False
 
     for i in range(5, len(board[0]) + 1):
         i = -i
@@ -78,8 +82,8 @@ def validate_board(board: list[str]) -> bool:
                 break
             board_temp.append(row[i:])
 
-        for row in board_temp:
-            check = checking(row, numbers)
+        for index in range(len(board[0])):
+            check = checking_two(index, numbers)
             if check is None:
                 return False
             numbers = check
