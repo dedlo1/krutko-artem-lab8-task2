@@ -12,9 +12,9 @@ def validate_board(board: list[str]) -> bool:
  "***1 ****",\
  "**  3****",\
  "* 4 1****",\
- " 5   9 5 ",\
+ " 5   9   ",\
  " 6  83  *",\
- "3      **",\
+ "3  3   **",\
  "  8  2***",\
  "  2  ****"\
 ])
@@ -45,49 +45,33 @@ def validate_board(board: list[str]) -> bool:
  "  2  ****"\
 ])
     False
+
+    >>> validate_board([\
+ "**** ****",\
+ "***1 ****",\
+ "**  3****",\
+ "* 4 1****",\
+ "     9 5 ",\
+ " 6  83  *",\
+ "3  8   **",\
+ "  8  2***",\
+ "8 2  ****"\
+])
+    True
     """
 
-    def checking(row: str, numbers_out: str = "") -> str | None:
-        """subfunc to run horizontal str"""
-        for symb in row:
-            if symb.isdigit():
-                if symb in numbers_out:
-                    return None
-                numbers_out += symb
-        return numbers_out
-
-    def checking_two(i: int, numbers_out: str = "") -> str | None:
-        """subfunc to run vertical str"""
-        for row in board:
-            if row[i].isdigit():
-                if row[i] in numbers_out:
-                    return None
-                numbers_out += row[i]
-
-            if checking(row) is None:
-                return None
-        return numbers_out
-
-    for i in range(len(board[0])):
-        if checking_two(i) is None:
-            return False
-
-    for i in range(5, len(board[0]) + 1):
-        i = -i
-        numbers = ""
-        board_temp = []
-
-        for index, row in enumerate(board):
-            if -index == i:
-                break
-            board_temp.append(row[i:])
-
-        for index in range(len(board[0])):
-            check = checking_two(index, numbers)
-            if check is None:
-                return False
-            numbers = check
-    return True
+    horizontal = [sorted([int(i) for i in row if i.isdigit()]) for row in board]
+    vertical = [
+        sorted([int(row[i]) for row in board if row[i].isdigit()])
+        for i in range(len(board))
+    ]
+    tmp_board, count, count2 = [], 0, -1
+    for cut in range(9, 4, -1):
+        tmp_lst = [row[count] for row in board][:cut] + list(board[count2][count + 1 :])
+        tmp_board.append(sorted([int(i) for i in tmp_lst if i.isdigit()]))
+        count += 1
+        count2 -= 1
+    return all(len(set(i)) == len(i) for i in horizontal + vertical + tmp_board)
 
 
 if __name__ == "__main__":
